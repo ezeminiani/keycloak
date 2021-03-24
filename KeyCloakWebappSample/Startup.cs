@@ -1,5 +1,6 @@
 ﻿using Microsoft.Owin;
 using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.Authorization.Infrastructure;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
 using Owin.Security.Keycloak;
@@ -17,6 +18,7 @@ namespace KeyCloakWebappSample
          * https://github.com/mattmorg55/Owin.Security.Keycloak/issues/17
          * https://github.com/keycloak/keycloak
          * https://github.com/dylanplecki/KeycloakOwinAuthentication/wiki/ASP.NET-MVC-Tutorial
+         * https://vladimirgeorgiev.com/blog/policy-based-authorization-in-asp-net-4/
          * 
          */
 
@@ -37,6 +39,17 @@ namespace KeyCloakWebappSample
 
             app.SetDefaultSignInAsAuthenticationType(persistentAuthType); // Cookie is primary session store
 
+
+            app.UseAuthorization(options =>
+            {
+                // essas opções comentadas não estão sendo localizadas.
+                //options.AddPolicy("Politica1", policy => policy.RequireClaim(JwtClaimTypes.Role, new string[] { "RoleA", "RoleB" }));
+                //options.AddPolicy("Politica1", policy => policy.RequireClaim("user_roles", new string[] { "RoleA", "RoleB" }));
+
+                options.AddPolicy("Politica1", policy => policy.RequireRole(new string[] { "RoleC", "RoleD" }));
+            });
+
+
             // --- Keycloak Authentication Middleware - Connects to central Keycloak database
             app.UseKeycloakAuthentication(new KeycloakAuthenticationOptions
             {
@@ -55,6 +68,7 @@ namespace KeyCloakWebappSample
                 TokenClockSkew = TimeSpan.FromSeconds(2)
 
             });
+
 
         }
     }

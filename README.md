@@ -4,4 +4,4 @@
 Aplicação ASP.NET MVC - funcionando!
 
 * KeyCloakWebapiSample
-Aplicação ASP.NET Web Api 2 - Não consegue passar o bearer token no Header da requisição.
+Aplicação ASP.NET Web Api 2 - funcionando!

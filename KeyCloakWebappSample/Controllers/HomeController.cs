@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using KeyCloakWebappSample.Filter;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 
@@ -11,7 +12,8 @@ namespace KeyCloakWebappSample.Controllers
             return View();
         }
 
-        [Authorize]
+        //[CustomAuthorize(Roles = "RoleC,RoleD")]
+        [CustomAuthorize(Policy = "Politica1")]
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -33,6 +35,15 @@ namespace KeyCloakWebappSample.Controllers
             HttpContext.GetOwinContext().Authentication.SignOut();
 
             return RedirectToAction("Index");
+        }
+
+
+
+        public ActionResult NaoAutorizado()
+        {
+            ViewBag.Message = "Não autorizado";
+
+            return View();
         }
     }
 }
